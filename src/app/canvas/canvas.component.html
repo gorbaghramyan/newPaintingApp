@@ -22,7 +22,7 @@
         <button class="button save" (click)="onSave()">Save</button>
       </div>
 
-      <div class="projects-container">
+      <div class="projects-container" *ngIf="projectList.length">
         <div *ngFor="let project of projectList" class="project" (click)="selectProject(project)">
           <div class="btn-wrapper"><button type="button" (click)="deleteProject(project)">X</button></div>
           <p>Project: {{project.name}}</p>

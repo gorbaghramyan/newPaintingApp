@@ -6,7 +6,6 @@
   width: 20px;
   height: 20px;
   border-radius: 30px;
-  background-color: aliceblue;
   border: 1px solid #000000;
 }
 
@@ -15,6 +14,7 @@
   width: calc(100% - 2px);
   height: calc(100% - 2px);
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .circle-wrapper {

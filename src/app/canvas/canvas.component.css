@@ -3,8 +3,6 @@
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: auto 100px;
-  height: auto;
 }
 
 .controls-panel {
@@ -12,51 +10,96 @@
   flex-flow: row wrap;
   flex: 1 1 100%;
   max-width: 100%;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   min-height: 40px;
+  flex-direction: column;
+}
+
+.save-options {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.controls-painting-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .circles-container {
-  display: flex;
+  display: inline-grid;
+  grid-column-gap: 1px;
+  grid-row-gap: 1px;
   flex-flow: row wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 380px;
+  margin: 10px auto 0;
 }
 
 .projects-container {
   display: flex;
   flex-flow: row wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
   min-height: 40px;
+  margin-top: 20px;
 }
 
 .project {
+  margin: 0 8px 10px;
   display: flex;
+  flex-direction: column;
   margin-left: 5px;
-  padding: 2px;
+  padding: 0px 10px;
   border: 1px solid #000000;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-wrapper button {
+  float: right;
+  margin: -10px;
+  margin-right: -20px;
+  cursor: pointer;
+  border-radius: 70%;
+  border: 1px solid black;
+  background-color: white;
 }
 
 .circles-container.container-100 {
-  width: 280px;
+  grid-template-columns: repeat(10, 1fr);
 }
 
 .circles-container.container-225 {
-  width: 420px;
+  grid-template-columns: repeat(15, 1fr);
 }
 
 .container-400 {
-  width: 560px;
+  grid-template-columns: repeat(20, 1fr);
 }
 
-.button-generate {
+.generate {
+  background-color: #555555;
+}
+.fill-all {
+  background-color: #008CBA;
+}
+.reset {
+  background-color: #f44336;
+}
+.save {
+  background-color: #4CAF50;
+}
+.button {
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   margin-left: 10px;
+  padding: 7px 10px;
+  font-size: 18px !important;
 }
-
+.button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
 .picker-wrapper {
   position: relative;
   display: flex;
@@ -80,6 +123,7 @@
 
 .picker {
   position: absolute;
+  cursor: pointer;
   top: 0;
   left: 0;
   width: 26px;
@@ -88,10 +132,12 @@
   opacity: 0;
 }
 
-.button-reset {
-  margin-left: 10px;
+.save-text {
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.button-fill-all {
-  margin-left: 10px;
+hr {
+  width: 100%;
 }

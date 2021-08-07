@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ICircle} from "../interfaces/circle.interface";
-import {ECircleCount} from "../enums/circle-count.enum";
-import {LocalStorageService} from "../services/storage.service";
-import {IProject} from "../interfaces/project.interface";
+import { Circle } from './../models/circle.model';
+import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from "../services/storage.service";
+import { ECircleCount } from "../enums/circle-count.enum";
+import { IProject } from "../interfaces/project.interface";
+import { ICircle } from "../interfaces/circle.interface";
 
 @Component({
   selector: 'app-canvas',
@@ -15,9 +16,9 @@ export class CanvasComponent implements OnInit {
   projectList: IProject[] = [];
   projectListName = 'circlesProject';
   canvasSizes: number[] = [
-    ECircleCount.MIN, // 100
-    ECircleCount.MID, // 225
-    ECircleCount.MAX, // 400
+    ECircleCount.MIN,
+    ECircleCount.MID,
+    ECircleCount.MAX
   ];
   selectedSize: number = this.canvasSizes[0];
   currentColor: string = '#000';
@@ -35,11 +36,14 @@ export class CanvasComponent implements OnInit {
   }
 
   onSizeSelect(): void {
-    // this.circles = [];
+    if (this.isEmpty(this.circles)) {
+      return;
+    }
+    this.resetColors();
   }
 
   onCircleClick(circle: ICircle): void {
-    this.circles[circle.id].color = this.currentColor;
+    this.circles[circle.id].color = circle.color === this.currentColor ? 'transparent' : this.currentColor;
   }
 
   onResetColor(): void {
@@ -51,11 +55,7 @@ export class CanvasComponent implements OnInit {
   resetColors(): void {
     this.circles = [];
     for (let i = 0; i < this.selectedSize; i++) {
-      this.circles.push({
-        id: i,
-        uid: this.newId(),
-        color: '',
-      });
+      this.circles.push(new Circle(i, this.newId(), ''));
     }
   }
 
@@ -77,7 +77,12 @@ export class CanvasComponent implements OnInit {
   }
 
   onSave(): void {
-    if (this.isEmpty(this.circles) || !this.projectName) {
+    if (this.isEmpty(this.circles)) {
+      return;
+    }
+
+    if (!this.projectName) {
+      alert('Name your project first');
       return;
     }
     this.projectList.push({
@@ -95,8 +100,19 @@ export class CanvasComponent implements OnInit {
       this.projectList = JSON.parse(projects);
     }
   }
+  deleteProject(project: IProject): void {
+    console.log(this.projectList);
+    this.projectList.map((el, i) => {
+      if (el.id === project.id) {
+        this.projectList.splice(i, 1);
+        this.storage.set(this.projectListName, JSON.stringify(this.projectList));
+        return;
+      }
+    })
 
+  }
   selectProject(project: IProject): void {
+    this.selectedSize = project.circles.length;
     this.circles = project.circles;
   }
 }

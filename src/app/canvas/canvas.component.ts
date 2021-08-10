@@ -1,8 +1,8 @@
+import { IProject } from './../interfaces/project.interface';
 import { Circle } from './../models/circle.model';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from "../services/storage.service";
 import { ECircleCount } from "../enums/circle-count.enum";
-import { IProject } from "../interfaces/project.interface";
 import { ICircle } from "../interfaces/circle.interface";
 import { Router } from '@angular/router';
 
@@ -30,8 +30,9 @@ export class CanvasComponent implements OnInit {
     const username = this.storage.get('curUser');
     if (!username) {
       this.logout();
+    } else {
+      this.getProjects(username);
     }
-    this.getProjects();
   }
 
   onGenerateCircles(): void {
@@ -92,15 +93,21 @@ export class CanvasComponent implements OnInit {
       id: this.newId(),
       name: this.projectName,
       circles: this.circles,
+      username: this.storage.get('curUser') || ''
     })
     const projectsStr = JSON.stringify(this.projectList);
     this.storage.set(this.projectListName, projectsStr);
   }
 
-  getProjects(): void {
+  getProjects(username: string): void {
     const projects = this.storage.get(this.projectListName);
     if (projects) {
-      this.projectList = JSON.parse(projects);
+      const tmpArr:IProject[] = JSON.parse(projects);
+      tmpArr.map(el => {
+        if(el.username === username) {
+          this.projectList.push(el);
+        }
+      });
     }
   }
   deleteProject(project: IProject): void {

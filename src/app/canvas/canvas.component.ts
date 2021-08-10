@@ -94,7 +94,8 @@ export class CanvasComponent implements OnInit {
       name: this.projectName,
       circles: this.circles,
       username: this.storage.get('curUser') || ''
-    })
+    });
+    this.projectList.concat(this.getAllProjects());
     const projectsStr = JSON.stringify(this.projectList);
     this.storage.set(this.projectListName, projectsStr);
   }
@@ -109,6 +110,14 @@ export class CanvasComponent implements OnInit {
         }
       });
     }
+  }
+  getAllProjects(): IProject[] {
+    const projects = this.storage.get(this.projectListName);
+    if (projects) {
+      const tmpArr:IProject[] = JSON.parse(projects);
+      return tmpArr;
+    }
+    else return []
   }
   deleteProject(project: IProject): void {
     this.projectList.map((el, i) => {

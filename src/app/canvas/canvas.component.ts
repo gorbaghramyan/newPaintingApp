@@ -4,6 +4,7 @@ import { LocalStorageService } from "../services/storage.service";
 import { ECircleCount } from "../enums/circle-count.enum";
 import { IProject } from "../interfaces/project.interface";
 import { ICircle } from "../interfaces/circle.interface";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-canvas',
@@ -23,16 +24,18 @@ export class CanvasComponent implements OnInit {
   selectedSize: number = this.canvasSizes[0];
   currentColor: string = '#000';
 
-  constructor(private storage: LocalStorageService) { }
+  constructor(private storage: LocalStorageService, private route: Router) { }
 
   ngOnInit(): void {
+    const username = this.storage.get('curUser');
+    if (!username) {
+      this.logout();
+    }
     this.getProjects();
-    console.log(this.projectList)
   }
 
   onGenerateCircles(): void {
-    this.resetColors()
-    console.log('this.circles: ', this.circles);
+    this.resetColors();
   }
 
   onSizeSelect(): void {
@@ -101,7 +104,6 @@ export class CanvasComponent implements OnInit {
     }
   }
   deleteProject(project: IProject): void {
-    console.log(this.projectList);
     this.projectList.map((el, i) => {
       if (el.id === project.id) {
         this.projectList.splice(i, 1);
@@ -114,5 +116,9 @@ export class CanvasComponent implements OnInit {
   selectProject(project: IProject): void {
     this.selectedSize = project.circles.length;
     this.circles = project.circles;
+  }
+  logout(): void {
+    this.storage.remove('curUser');
+    this.route.navigate(['/']);
   }
 }

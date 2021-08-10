@@ -1,0 +1,65 @@
+<form (submit)="onSubmit()" [formGroup]="registerForm" class="register-container">
+    <h1>Register</h1>
+    
+    <label for="username">Username</label>
+    <input type="text" name='username' formControlName="username" [ngClass]="username().errors && username().touched ? 'hasError' : ''"/>
+    <div class="error" *ngIf='username().errors && username().touched'>
+        <div *ngIf="username().hasError('required')">
+            Please enter a username
+        </div>
+        <div *ngIf="username().hasError('contains')">
+            This username is already registered
+        </div>
+        <div *ngIf="username().hasError('minlength')">
+            Min length for username is 3
+        </div>
+    </div>
+
+    <label for="fname">First name</label>
+    <input type="text" name='fname' formControlName="fname" [ngClass]="fname().errors && fname().touched ? 'hasError' : ''"/>
+    <div class="error" *ngIf='fname().errors && fname().touched'>
+        <div *ngIf="fname().hasError('required')">
+            Please enter a first name
+        </div>
+        <div *ngIf="fname().hasError('minlength')">
+            Min length for first name is 3
+        </div>
+    </div>
+
+    <label for="lname">Last name</label>
+    <input type="text" name='lname' formControlName="lname" [ngClass]="lname().errors && lname().touched ? 'hasError' : ''"/>
+    <div class="error" *ngIf='lname().errors && lname().touched'>
+        <div *ngIf="lname().hasError('required')">
+            Please enter a last name
+        </div>
+        <div *ngIf="lname().hasError('minlength')">
+            Min length for last name is 3
+        </div>
+    </div>
+
+    <label for="password">Password</label>
+    <input type="password" name='password' formControlName="password" [ngClass]="password().errors && password().touched ? 'hasError' : ''"/>
+    <div class="error" *ngIf='password().errors && password().touched'>
+        <div *ngIf="password().hasError('required')">
+            Please enter a password
+        </div>
+        <div *ngIf="password().hasError('minlength')">
+            Min length for password is 3
+        </div>
+    </div>
+
+    <label for="confPassword">Confirm password</label>
+    <input type="password" name='confPassword' formControlName="confPassword" [ngClass]="confPassword().errors && confPassword().touched ? 'hasError' : ''"/>
+    <div class="error" *ngIf='confPassword().errors && confPassword().touched'>
+        <div *ngIf="confPassword().hasError('required')">
+            Please enter your password again
+        </div>
+        <div *ngIf="confPassword().hasError('mustMatch')">
+            Passwords must match
+        </div>
+    </div>
+
+    <button class="button" type="submit">Register</button>
+</form>
+
+<p>Already have an account? <a routerLink="/">Login</a></p>

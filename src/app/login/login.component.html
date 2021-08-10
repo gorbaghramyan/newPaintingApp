@@ -1,0 +1,12 @@
+<form (submit)='onSubmit()' class="login-container">
+    <h1>Login</h1>
+    <p class="error" *ngIf="wrongValues"> Wrong login values </p>
+    <label for="username">Username</label>
+    <input type="text" name='username' [(ngModel)]="username" />
+
+    <label for="password">Password</label>
+    <input type="password" name='password' [(ngModel)]="password"/>
+
+    <button class="button" type="submit">Login</button>
+</form>
+<p>Don't have an account? <a routerLink="/register">Register now</a></p>

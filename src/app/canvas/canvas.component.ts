@@ -108,6 +108,7 @@ export class CanvasComponent implements OnInit {
   }
 
   getProjects(username: string): void {
+    this.curProjectList = [];
     const projects = this.storage.get(this.projectListName);
     if (projects) {
       this.projectList = JSON.parse(projects);
@@ -124,6 +125,7 @@ export class CanvasComponent implements OnInit {
       if (el.id === project.id) {
         this.projectList.splice(i, 1);
         this.storage.set(this.projectListName, JSON.stringify(this.projectList));
+        this.getProjects(this.storage.get('curUser') || '')
         return;
       }
     })

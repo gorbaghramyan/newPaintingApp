@@ -5,6 +5,7 @@ import { LocalStorageService } from "../services/storage.service";
 import { ECircleCount } from "../enums/circle-count.enum";
 import { ICircle } from "../interfaces/circle.interface";
 import { Router } from '@angular/router';
+import { Project } from '../models/project.model';
 
 @Component({
   selector: 'app-canvas',
@@ -23,7 +24,7 @@ export class CanvasComponent implements OnInit {
     ECircleCount.MAX
   ];
   selectedSize: number = this.canvasSizes[0];
-  currentColor: string = '#000';
+  currentColor: string = 'yellow';
 
   constructor(private storage: LocalStorageService, private route: Router) { }
 
@@ -90,19 +91,12 @@ export class CanvasComponent implements OnInit {
       alert('Name your project first');
       return;
     }
-  
-    this.projectList.push({
-      id: this.newId(),
-      name: this.projectName,
-      circles: this.circles,
-      username: this.storage.get('curUser') || ''
-    });
-    this.curProjectList.push({
-      id: this.newId(),
-      name: this.projectName,
-      circles: this.circles,
-      username: this.storage.get('curUser') || ''
-    })
+
+    const project = new Project(this.storage.get('curUser') || '', this.newId(), this.projectName, this.circles);
+
+    this.projectList.push(project);
+    this.curProjectList.push(project);
+
     const projectsStr = JSON.stringify(this.projectList);
     this.storage.set(this.projectListName, projectsStr);
   }
@@ -110,9 +104,7 @@ export class CanvasComponent implements OnInit {
   getProjects(username: string): void {
     this.curProjectList = [];
     const projects = this.storage.get(this.projectListName);
-    if (projects) {
-      console.log(this.projectList);
-      
+    if (projects) {      
       this.projectList = JSON.parse(projects);
       this.projectList.map(el => {
         if(el.username === username) {

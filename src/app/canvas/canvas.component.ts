@@ -111,6 +111,8 @@ export class CanvasComponent implements OnInit {
     this.curProjectList = [];
     const projects = this.storage.get(this.projectListName);
     if (projects) {
+      console.log(this.projectList);
+      
       this.projectList = JSON.parse(projects);
       this.projectList.map(el => {
         if(el.username === username) {

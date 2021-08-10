@@ -15,6 +15,7 @@ export class CanvasComponent implements OnInit {
   circles: ICircle[] = [];
   projectName: string = '';
   projectList: IProject[] = [];
+  curProjectList: IProject[] = [];
   projectListName = 'circlesProject';
   canvasSizes: number[] = [
     ECircleCount.MIN,
@@ -89,13 +90,19 @@ export class CanvasComponent implements OnInit {
       alert('Name your project first');
       return;
     }
+  
     this.projectList.push({
       id: this.newId(),
       name: this.projectName,
       circles: this.circles,
       username: this.storage.get('curUser') || ''
     });
-    this.projectList.concat(this.getAllProjects());
+    this.curProjectList.push({
+      id: this.newId(),
+      name: this.projectName,
+      circles: this.circles,
+      username: this.storage.get('curUser') || ''
+    })
     const projectsStr = JSON.stringify(this.projectList);
     this.storage.set(this.projectListName, projectsStr);
   }
@@ -103,22 +110,15 @@ export class CanvasComponent implements OnInit {
   getProjects(username: string): void {
     const projects = this.storage.get(this.projectListName);
     if (projects) {
-      const tmpArr:IProject[] = JSON.parse(projects);
-      tmpArr.map(el => {
+      this.projectList = JSON.parse(projects);
+      this.projectList.map(el => {
         if(el.username === username) {
-          this.projectList.push(el);
+          this.curProjectList.push(el);
         }
       });
     }
   }
-  getAllProjects(): IProject[] {
-    const projects = this.storage.get(this.projectListName);
-    if (projects) {
-      const tmpArr:IProject[] = JSON.parse(projects);
-      return tmpArr;
-    }
-    else return []
-  }
+
   deleteProject(project: IProject): void {
     this.projectList.map((el, i) => {
       if (el.id === project.id) {

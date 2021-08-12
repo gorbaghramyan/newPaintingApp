@@ -1,7 +1,9 @@
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { User } from './../models/user.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/storage.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +11,16 @@ import { LocalStorageService } from '../services/storage.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  username: string = '';
-  password: string = '';
-  wrongValues: boolean = false;
-
   users: User[] = [];
-  userListName = 'users'
+  wrongValues: boolean = false;
+  loginForm: any;
 
-  constructor(private storage: LocalStorageService, private route: Router) { }
+  constructor(private storage: LocalStorageService, private route: Router, private userService: UserService, private formBuilder: FormBuilder) {
+    this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+  }
 
   ngOnInit(): void {
     const username = this.storage.get('curUser');
@@ -24,23 +28,26 @@ export class LoginComponent implements OnInit {
       this.login(username);
     }
   }
-
-  getUsers(): User[] {
-    const usersInLocal = this.storage.get(this.userListName);
-    if (usersInLocal) {
-      return JSON.parse(usersInLocal);
-    }
-    return [];
+  username() {
+    return this.loginForm.get('username') as FormControl;
+  }
+  password() {
+    return this.loginForm.get('password') as FormControl;
   }
 
   onSubmit(): void {
-    const users = this.getUsers();
-    this.wrongValues = true;
-    users.map(el => {
-      if (el.username === this.username && el.password === this.password) {
-        this.login(this.username);
-      }
-    })
+
+    if (this.loginForm.valid) {
+      this.wrongValues = true;
+      const users = this.userService.getUsers();
+      users.map(el => {
+        if (el.username === this.username().value && el.password === this.password().value) {
+          this.login(el.username);
+        }
+      });
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
   }
 
   login(username: string): void {

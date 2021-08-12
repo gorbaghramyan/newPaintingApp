@@ -44,4 +44,9 @@ h1 {
 
 .error {
     color: red;
+    margin-bottom: 20px;
+}
+
+.hasError {
+    border-bottom: 2px solid red !important;
 }

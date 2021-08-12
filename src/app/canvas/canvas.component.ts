@@ -92,6 +92,18 @@ export class CanvasComponent implements OnInit {
       return;
     }
 
+    let isValid = true;
+    this.curProjectList.map(el => {
+      if(el.name === this.projectName) {
+        alert('Already exists project with this name');
+        isValid = false;
+        return;
+      }
+    })
+    if(!isValid) {
+      return;
+    }
+
     const project = new Project(this.storage.get('curUser') || '', this.newId(), this.projectName, this.circles);
 
     this.projectList.push(project);
@@ -99,6 +111,7 @@ export class CanvasComponent implements OnInit {
 
     const projectsStr = JSON.stringify(this.projectList);
     this.storage.set(this.projectListName, projectsStr);
+    this.projectName = '';
   }
 
   getProjects(username: string): void {
@@ -113,22 +126,18 @@ export class CanvasComponent implements OnInit {
       });
     }
   }
-
+  
   deleteProject(project: IProject): void {
-    this.projectList.map((el, i) => {
-      if (el.id === project.id) {
-        this.projectList.splice(i, 1);
-        this.storage.set(this.projectListName, JSON.stringify(this.projectList));
-        this.getProjects(this.storage.get('curUser') || '')
-        return;
-      }
-    })
-
+    this.projectList = this.projectList.filter(el => el.id !== project.id);
+    this.curProjectList = this.curProjectList.filter(el => el.id !== project.id);
+    this.storage.set(this.projectListName, JSON.stringify(this.projectList));
   }
+
   selectProject(project: IProject): void {
     this.selectedSize = project.circles.length;
     this.circles = project.circles;
   }
+
   logout(): void {
     this.storage.remove('curUser');
     this.route.navigate(['/']);

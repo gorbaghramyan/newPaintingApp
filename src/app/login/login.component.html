@@ -1,11 +1,22 @@
-<form (submit)='onSubmit()' class="login-container">
+<form (submit)='onSubmit()' class="login-container" [formGroup]="loginForm">
     <h1>Login</h1>
     <p class="error" *ngIf="wrongValues"> Wrong login values </p>
+
     <label for="username">Username</label>
-    <input type="text" name='username' [(ngModel)]="username" />
+    <input type="text" name='username' formControlName="username" [ngClass]="username().errors && username().touched ? 'hasError' : ''"/>
+    <div class="error" *ngIf='username().errors && username().touched'>
+        <div *ngIf="username().hasError('required')">
+            Please enter a username
+        </div>
+    </div>
 
     <label for="password">Password</label>
-    <input type="password" name='password' [(ngModel)]="password"/>
+    <input type="password" name='password' formControlName="password" [ngClass]="password().errors && username().touched ? 'hasError' : ''"/>
+    <div class="error" *ngIf='password().errors && password().touched'>
+        <div *ngIf="password().hasError('required')">
+            Please enter a password
+        </div>
+    </div>
 
     <button class="button" type="submit">Login</button>
 </form>

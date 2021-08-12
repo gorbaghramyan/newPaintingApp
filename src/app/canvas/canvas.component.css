@@ -81,24 +81,29 @@
   background-image: url(./../../assets/generate.png);
   margin-right: 20px;
 }
+
 .fill-all {
   background-image: url(./../../assets/fill.png);
-
 }
+
 .reset {
   background-image: url(./../../assets/reset.png);
 }
+
 .logout {
   background-image: url(./../../assets/exit.png);
   position: absolute;
   right: 10%;
 }
+
 .save {
-  background-color: #4CAF50;
+  background-image: url(./../../assets/save.png);
 }
+
 .opt-right {
   margin-left: 20px;
 }
+
 .button {
   color: white;
   border: none;
@@ -109,10 +114,12 @@
   width: 40px;
   height: 40px;
 }
+
 .button:hover {
   opacity: 0.8;
   cursor: pointer;
 }
+
 .picker-wrapper {
   position: relative;
   display: flex;

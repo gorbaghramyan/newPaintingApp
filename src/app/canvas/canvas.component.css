@@ -78,23 +78,36 @@
 }
 
 .generate {
-  background-color: #555555;
+  background-image: url(./../../assets/generate.png);
+  margin-right: 20px;
 }
 .fill-all {
-  background-color: #008CBA;
+  background-image: url(./../../assets/fill.png);
+
 }
 .reset {
-  background-color: #f44336;
+  background-image: url(./../../assets/reset.png);
+}
+.logout {
+  background-image: url(./../../assets/exit.png);
+  position: absolute;
+  right: 10%;
 }
 .save {
   background-color: #4CAF50;
 }
+.opt-right {
+  margin-left: 20px;
+}
 .button {
   color: white;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: none;
   margin-left: 10px;
-  padding: 7px 10px;
-  font-size: 18px !important;
+  background-position: center;
+  background-size: cover;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
 }
 .button:hover {
   opacity: 0.8;

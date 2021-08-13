@@ -6,6 +6,8 @@ import { LocalStorageService } from "../services/storage.service";
 import { ECircleCount } from "../enums/circle-count.enum";
 import { ICircle } from "../interfaces/circle.interface";
 import { Router } from '@angular/router';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UniqueProjectName, UniqueUsername } from '../validators';
 
 @Component({
   selector: 'app-canvas',
@@ -25,10 +27,12 @@ export class CanvasComponent implements OnInit {
     ECircleCount.MAX
   ];
   selectedSize: number = this.canvasSizes[0];
-  currentColor: string = 'yellow';
+  currentColor: string = 'rgba(125,180, 68)';
   isProjectClicked: boolean = false;
 
-  constructor(private storage: LocalStorageService, private route: Router) { }
+  constructor(private storage: LocalStorageService, private route: Router) { 
+    
+  }
 
   ngOnInit(): void {
     const username = this.storage.get('curUser');
@@ -156,15 +160,14 @@ export class CanvasComponent implements OnInit {
     }
     let isValid = true;
     this.curProjectList.map(el => {
-      if(el.name === this.projectName) {
+      if(el.name === this.projectName && this.selectedProjectId !== el.id) {
         alert('Already exists project with this name');
-        let isValid = false;
+        isValid = false;
       }
     });
     if(!isValid) {
       return;
     }
-
     let project = new Project();
     this.curProjectList.map((el, index) => {
       if (el.id === this.selectedProjectId) {
@@ -182,6 +185,8 @@ export class CanvasComponent implements OnInit {
     project.name = this.projectName;
     this.projectName = '';
     this.addToProjectList(project);
+    console.log(project);
+    
   }
 
   addToProjectList(project: Project): void {

@@ -1,3 +1,4 @@
+import { Project } from './models/project.model';
 import { FormGroup } from '@angular/forms';
 import { User } from './models/user.model';
 
@@ -22,6 +23,19 @@ export function UniqueUsername(username: string, users: User[]) {
         const control = formGroup.controls[username];
         users.map(el => {
         const matchingControl = el.username;
+
+        if (control.value === matchingControl) {
+            control.setErrors({ contains: true });
+        }
+    })
+    }
+}
+
+export function UniqueProjectName(name: string, list: Project[]) {    
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[name];
+        list.map(el => {
+        const matchingControl = el.name;
 
         if (control.value === matchingControl) {
             control.setErrors({ contains: true });

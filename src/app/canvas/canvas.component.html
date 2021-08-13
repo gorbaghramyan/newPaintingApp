@@ -20,12 +20,14 @@
     <div class="controls-saving-container">
       <div class="save-options" *ngIf="circles.length">
         <input class="save-text" type="text" [(ngModel)]="projectName" (input)="onInputChange($event)" />
+        
         <button class="button save" (click)="onSave()" ></button>
         <button class="button edit" (click)="onEdit()" *ngIf="isProjectClicked"></button>
       </div>
 
       <div class="projects-container" *ngIf="curProjectList.length">
-        <div *ngFor="let project of curProjectList" class="project" (click)="selectProject(project)">
+        <div *ngFor="let project of curProjectList" class="project" (click)="selectProject(project)" 
+        [style.background]="project.id === selectedProjectId ? 'rgba(125,180, 68, .4)' : 'white'">
           <div class="btn-wrapper"><button type="button" (click)="deleteProject(project)">X</button></div>
           <p>Project: {{project.name}}</p>
         </div>

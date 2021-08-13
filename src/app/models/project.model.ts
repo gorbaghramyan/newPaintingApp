@@ -7,7 +7,7 @@ export class Project implements IProject {
   name: string = '';
   circles: ICircle[] = [];
 
-  constructor(username: string, id: string, name: string, circles: ICircle[]) {
+  constructor(username: string = '', id: string = '', name: string = '', circles: ICircle[] = []) {
     this.id = id;
     this.username = username;
     this.name = name;

@@ -100,6 +100,10 @@
   background-image: url(./../../assets/save.png);
 }
 
+.edit {
+  background-image: url(./../../assets/edit.png);
+}
+
 .opt-right {
   margin-left: 20px;
 }
